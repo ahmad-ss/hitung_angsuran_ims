@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Angsuran Mobil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kalkulator Angsuran Mobil</h1>
+    <label for="hargaMobil">Harga Mobil (Rp):</label>
+    <input type="number" id="hargaMobil" value="240000000" readonly>
+
+    <label for="downPayment">Down Payment (%):</label>
+    <input type="number" id="downPayment" value="20" readonly>
+
+    <label for="tenor">Tenor (tahun):</label>
+    <input type="number" id="tenor" value="1.5" readonly>
+
+    <button onclick="hitungAngsuran()">Hitung Angsuran</button>
+
+    <div class="result" id="result">
+        <!-- Hasil perhitungan akan ditampilkan di sini -->
+    </div>
+</div>
+
+<script>
+    function hitungAngsuran() {
+        // Ambil nilai dari input
+        const hargaMobil = parseFloat(document.getElementById('hargaMobil').value);
+        const downPaymentPercent = parseFloat(document.getElementById('downPayment').value);
+        const tenor = parseFloat(document.getElementById('tenor').value);
+
+        // Hitung Down Payment
+        const downPayment = (downPaymentPercent / 100) * hargaMobil;
+
+        // Hitung sisa pembayaran
+        const sisaPembayaran = hargaMobil - downPayment;
+
+        // Hitung jumlah bulan
+        const jumlahBulan = tenor * 12;
+
+        // Hitung angsuran per bulan
+        const angsuranPerBulan = sisaPembayaran / jumlahBulan;
+
+        // Format angka ke dalam format mata uang
+        const formatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        });
+
+        // Tampilkan hasil
+        document.getElementById('result').innerHTML = `
+            <p>Down Payment: ${formatter.format(downPayment)}</p>
+            <p>Sisa Pembayaran: ${formatter.format(sisaPembayaran)}</p>
+            <p>Angsuran per Bulan: ${formatter.format(angsuranPerBulan)}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
